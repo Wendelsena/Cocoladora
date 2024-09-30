@@ -1,81 +1,104 @@
-import 'package:flutter/material.dart'; 
+// Importações necessárias
+import 'package:cocoladora/calculadora.dart';
+import 'package:flutter/material.dart';
 
+// Função principal que inicia o aplicativo
 void main() {
-  runApp(MyApp()); 
+  runApp(CalculatorApp());
 }
 
-// Criação de um widget chamado `MyApp` que estende `StatelessWidget`.
-class MyApp extends StatelessWidget { // `StatelessWidget` é um tipo de widget que não possui estado mutável, ou seja, ele é ideal para construir partes da interface que não precisam ser atualizadas dinamicamente após a criação.
-  const MyApp({super.key}); // O `super.key` é usado para passar a chave ao widget pai (`StatelessWidget`). Isso ajuda na identificação de widgets e em processos como reconstrução eficiente.
+// Widget principal que encapsula toda a aplicação
+class CalculatorApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Cocolator',
+      home: MainScreen(), // Define a tela principal do app
+    );
+  }
+}
 
-  @override // Indica que o método abaixo está substituindo um método da classe pai (`StatelessWidget`).
-  Widget build(BuildContext context) { // Método `build()` é responsável por construir a interface do usuário e recebe `BuildContext context` que contém informações sobre o local do widget na árvore de widgets.
+// Widget que representa a tela principal do aplicativo
+class MainScreen extends StatefulWidget {
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
 
-    return MaterialApp( // `MaterialApp` é a base do aplicativo que fornece estrutura para usar componentes de Material Design.
-      home: Scaffold(  // `Scaffold` fornece a estrutura básica de uma página, como barra de app, corpo, rodapé, etc.
-        body: Container( // `Container` é um widget versátil que pode conter outros widgets e permite customização como margem, padding, alinhamento, etc.
-          decoration: const BoxDecoration(  // `BoxDecoration` é usado para decorar o `Container`, adicionando um plano de fundo, borda, etc.
-            image: DecorationImage(  // `DecorationImage` define uma imagem como decoração do `Container`.
-              image: AssetImage('assets/wallpaper.jpg'),  // `AssetImage` é usado para carregar uma imagem dos recursos do aplicativo.
-              fit: BoxFit.cover, // para fazer a imagem ocupar a tela toda.
-            ),
+class _MainScreenState extends State<MainScreen> {
+  // Método chamado ao pressionar o botão de iniciar a calculadora
+  void _iniciarCalculadora() {
+    debugPrint("Botão iniciar pressionado"); // Linha de debug
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CalculatorScreen()),
+    ); // Navega para a tela da calculadora
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/wallpaper.jpg'), // Plano de fundo
+            fit: BoxFit.cover, // Ajusta a imagem para cobrir toda a tela
           ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric( // Define o preenchimento interno
-                    vertical: 20, // Aumenta a margem interna vertical
-                    horizontal: 30, // Aumenta a margem interna horizontal
-                  ),
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(248, 255, 255, 244), // Cor de fundo do Container
-                    borderRadius: BorderRadius.circular(10), // Arredondamento das bordas
-                    boxShadow: const [ // Adiciona sombra
-                      BoxShadow(
-                        color: Colors.black38, // Cor da sombra
-                        offset: Offset(0, 4), // Posição da sombra
-                        blurRadius: 10, // Difusão da sombra
-                        spreadRadius: 1, // Espalhamento da sombra
-                      ),
-                    ],
-                  ),
-                  child: const Text(
-                    "COCOLATOR",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 57, 29, 9),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 30,
+                ),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(248, 255, 255, 244),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black38,
+                      offset: Offset(0, 4),
+                      blurRadius: 10,
+                      spreadRadius: 1,
                     ),
+                  ],
+                ),
+                child: const Text(
+                  "COCOLATOR", // Título exibido na tela principal
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 57, 29, 9),
                   ),
                 ),
-                const SizedBox(height: 40),
-                ElevatedButton(
-                  onPressed: (){}, 
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 57, 29, 9),
-                    shape: RoundedRectangleBorder(
+              ),
+              const SizedBox(height: 40), // Espaçamento vertical
+              ElevatedButton(
+                onPressed: _iniciarCalculadora, // Função chamada ao pressionar o botão
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 57, 29, 9),
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
-                    side: const BorderSide( // borda branca no botão
-                      color: Colors.white,
+                    side: const BorderSide(
+                      color: Colors.white, // Define a cor da borda do botão
                       width: 2,
-                    )
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15,
-                      horizontal: 80,
                     ),
                   ),
-                  child: const Text(
-                    "Iniciar",
-                    style: TextStyle(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 80,
+                  ),
+                ),
+                child: const Text(
+                  "Iniciar", // Texto exibido no botão
+                  style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
                       fontSize: 20),
-                  ),
-                )
-              ],
-            )  // `Center` alinha seu filho no centro do widget pai.
+                ),
+              )
+            ],
           ),
         ),
       ),
